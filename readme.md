@@ -3,6 +3,13 @@ Processing & Arduino Code
 
 Here's a mishmash of some code snippets/programs I've written over the past years for various projects.
 
+Aurora
+---------
+
+### Aurora.pde
+
+A processing sketch that connects to an arduino and color sensor in order to output the sensor's data into the background color of processing's drawn canvas. The standard arduino-only code outputs this same data either numerically or via an led, which aren't the most intuitable.
+
 Breathing
 ---------
 
@@ -35,6 +42,14 @@ A simple arduino sketch written to fade the leds in this project: [http://madeby
 ### Madeline.brd
 
 The raw Eagle board files for the circuit board inside of [Madeline](http://madeby.basheertome.com/madeline) which makes the front cover pulse.
+
+Post
+------
+
+### Post.pde
+
+A processing sketch that uses imap and pop3 api's to pull the unread inbox count for a given email address. The output is a boolean true or false value that's intended to be used to control a motorized flag on a physical mailbox in a beginner electronic's toolkit. The imported libraries are included except for the arduino library, which can be found on [Arduino.cc](http://www.arduino.cc/playground/interfacing/processing).
+
 
 Nodes
 ------
