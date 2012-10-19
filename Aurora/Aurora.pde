@@ -2,7 +2,9 @@ import processing.serial.*;
 import cc.arduino.*;
 
 Arduino arduino;
-PFont f;
+
+PFont f1;
+PFont f2;
 
 final int ledpin = 13;
 final int GSR1 = 12;
@@ -25,9 +27,12 @@ int grgb = 0;
 int brgb = 0;
 int lum = 0;
 
+boolean spacebar = false;
+
 void setup() {
-  size(500,500);
-  f = createFont("Arial",16,true);
+  size(750,750);
+  f1 = createFont("Arial",16,true);
+  f2 = createFont("Arial",12,true);
   arduino = new Arduino(this, Arduino.list()[4], 57600);
   
   arduino.pinMode(ledpin, Arduino.OUTPUT);
@@ -55,15 +60,66 @@ void draw() {
   blue = arduino.analogRead(bluepin);
   lum = (red + blue + green) / 3;
   
-  background(red, green, blue);
-  //background(lum);
+  noStroke();
+  if (spacebar) {
+    fill(red, green, blue);
+    rect(width/2,0,width/2,height/2);
+    fill(lum);
+    rect(width/2,height/2,width/2,height);
+    fill(255);
+    rect(width/2.0-40,14,80,24);
+  } else {
+    fill(red, green, blue);
+    rect(0,0,width,height/2);
+    fill(lum);
+    rect(0,height/2,width,height);
+    fill(255);
+    rect(width/2.0-90,height/2-13,180,24);
+  }
   
-  textFont(f);
-  fill(255);
+  if (lum > 127) {
+    fill(0);
+  } else {
+    fill(255);
+  }
+  
+  textFont(f1);
   textAlign(CENTER);
-  text("R:" + red + " G:" + green + " B:" + blue,width/2,100);
-  
-  text("L:" + lum,width/2,150);
+  if (spacebar) {
+    text("R:" + round(red/2.55) + "% G:" + round(green/2.55) + "% B:" + round(blue/2.55) + "%",width*.75,height/4.0);
+    text("L:" + round(lum/2.55) + "%",width*.75,height*.75);
+    textFont(f2);
+    fill(0);
+    text("COMPARE", width/2, 30);
+  } else {
+    text("R:" + round(red/2.55) + "% G:" + round(green/2.55) + "% B:" + round(blue/2.55) + "%",width/2.0,height/4.0);
+    text("L:" + round(lum/2.55) + "%",width/2.0,height*.75);
+    textFont(f2);
+    fill(0);
+    text("press spacebar to compare", width/2, height/2 + 3);
+  }
   
   delay(200);
+}
+
+void keyPressed() {
+  if (key == ' ') {
+    fill(red, green, blue);
+    rect(0,0,width,height/2);
+    fill(lum);
+    rect(0,height/2,width,height);
+    if (lum > 127) {
+      fill(0);
+    } else {
+      fill(255);
+    }
+    textFont(f1);
+    text("R:" + round(red/2.55) + "% G:" + round(green/2.55) + "% B:" + round(blue/2.55) + "%",width*.25,height/4.0);
+    text("L:" + round(lum/2.55) + "%",width*.25,height*.75);
+    if (spacebar == true) {
+      spacebar = false;
+    } else {
+      spacebar = true;
+    }
+  }
 }
