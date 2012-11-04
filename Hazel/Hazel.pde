@@ -6,6 +6,9 @@ Arduino arduino;
 PFont f1;
 PFont f2;
 
+PImage imgw;
+PImage imgb;
+
 final int ledpin = 13;
 final int GSR1 = 12;
 final int GSR0 = 11;
@@ -26,13 +29,16 @@ int rrgb = 0;
 int grgb = 0;
 int brgb = 0;
 int lum = 0;
+int brit = 0;
+int sat = 0;
 
 boolean spacebar = false;
 
 void setup() {
-  size(750,750);
+  size(screenWidth,screenHeight);
+  imgw = loadImage("logo-w.png");
+  imgb = loadImage("logo-b.png");
   f1 = createFont("Arial",16,true);
-  f2 = createFont("Arial",12,true);
   arduino = new Arduino(this, Arduino.list()[4], 57600);
   
   arduino.pinMode(ledpin, Arduino.OUTPUT);
@@ -55,48 +61,43 @@ void setup() {
 
 void draw() {
   
+  colorMode(HSB, 360, 100, 100);
+  
   red = arduino.analogRead(redpin);
   green = arduino.analogRead(greenpin);
   blue = arduino.analogRead(bluepin);
   lum = (red + blue + green) / 3;
+  brit = round(lum/2.55);
+  sat = 56;
   
   noStroke();
   if (spacebar) {
-    fill(red, green, blue);
-    rect(width/2,0,width/2,height/2);
-    fill(lum);
-    rect(width/2,height/2,width/2,height);
-    fill(255);
-    rect(width/2.0-40,14,80,24);
+    fill(30, sat, brit);
+    rect(width/2,0,width/2,height);
   } else {
-    fill(red, green, blue);
-    rect(0,0,width,height/2);
-    fill(lum);
-    rect(0,height/2,width,height);
-    fill(255);
-    rect(width/2.0-90,height/2-13,180,24);
+    fill(30, sat, brit);
+    rect(0,0,width,height);
   }
   
+  copy(width/2-60, 0, 60, 120, width/2-60, height/2-60, 60, 120);
+  
   if (lum > 127) {
-    fill(0);
+    image(imgb,width/2-60,height/2-60);
   } else {
-    fill(255);
+    image(imgw,width/2-60,height/2-60);
   }
   
   textFont(f1);
   textAlign(CENTER);
   if (spacebar) {
-    text("R:" + round(red/2.55) + "% G:" + round(green/2.55) + "% B:" + round(blue/2.55) + "%",width*.75,height/4.0);
-    text("L:" + round(lum/2.55) + "%",width*.75,height*.75);
-    textFont(f2);
-    fill(0);
-    text("COMPARE", width/2, 30);
+    if (lum > 127) {
+      fill(#000000);
+    } else {
+      fill(#ffffff);
+    }
+    text(100-round(lum/2.55),width*.75,height/2+5);
   } else {
-    text("R:" + round(red/2.55) + "% G:" + round(green/2.55) + "% B:" + round(blue/2.55) + "%",width/2.0,height/4.0);
-    text("L:" + round(lum/2.55) + "%",width/2.0,height*.75);
-    textFont(f2);
-    fill(0);
-    text("press spacebar to compare", width/2, height/2 + 3);
+    text(100-round(lum/2.55),width/2,height/2+5);
   }
   
   delay(200);
@@ -104,18 +105,17 @@ void draw() {
 
 void keyPressed() {
   if (key == ' ') {
-    fill(red, green, blue);
-    rect(0,0,width,height/2);
-    fill(lum);
-    rect(0,height/2,width,height);
+    fill(30, sat, brit);
+    rect(0,0,width,height);
     if (lum > 127) {
-      fill(0);
+      image(imgb,width/2-60,height/2-60);
+      fill(#000000);
     } else {
-      fill(255);
+      image(imgw,width/2-60,height/2-60);
+      fill(#ffffff);
     }
     textFont(f1);
-    text("R:" + round(red/2.55) + "% G:" + round(green/2.55) + "% B:" + round(blue/2.55) + "%",width*.25,height/4.0);
-    text("L:" + round(lum/2.55) + "%",width*.25,height*.75);
+    text(100-round(lum/2.55),width/4,height/2+5);
     if (spacebar == true) {
       spacebar = false;
     } else {

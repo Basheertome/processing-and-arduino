@@ -3,12 +3,14 @@ Processing & Arduino Code
 
 Here's a mishmash of some code snippets/programs I've written over the past years for various projects.
 
-Aurora
+Hazel
 ---------
 
-### Aurora.pde
+### Hazel.pde
 
-A processing sketch that connects to an arduino and color sensor in order to output the sensor's data into the background color of processing's drawn canvas. The standard arduino-only code outputs this same data either numerically or via an led, which aren't the most intuitable. The arduino library for processing can be found on [Arduino.cc](http://www.arduino.cc/playground/interfacing/processing).
+A processing sketch that connects to an arduino and color sensor in order to output the sensor's data into the background color of processing's drawn canvas. Press the spacebar while running the sketch to save and compare between two values.
+
+The standard arduino-only code outputs this same data either numerically or via an led, which aren't the most intuitable. The arduino library for processing can be found on [Arduino.cc](http://www.arduino.cc/playground/interfacing/processing).
 
 Breathing
 ---------
