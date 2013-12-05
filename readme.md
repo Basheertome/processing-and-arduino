@@ -52,7 +52,6 @@ Post
 
 A processing sketch that uses imap and pop3 api's to pull the unread inbox count for a given email address. The output is a boolean true or false value that's intended to be used to control a motorized flag on a physical mailbox in a beginner electronic's toolkit. The imported libraries are included except for the arduino library, which can be found on [Arduino.cc](http://www.arduino.cc/playground/interfacing/processing).
 
-
 Nodes
 ------
 
@@ -63,3 +62,10 @@ Simple processing sketch that integrates the triangulate library in order to dra
 ### Nodes_Retina
 
 A 2x version of the nodes sketch.
+
+OptielasticTable
+------
+
+### OptielasticTable.pde
+
+These Processing scripts take a 5x10 pixel animated GIF as an input, using each frame as literal frames, the top half for color information, and the bottom half as a depth map. This is then both visualized on screen in 3d for debugging and sent to the hardware as an array.
